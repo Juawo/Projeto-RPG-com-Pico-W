@@ -13,6 +13,6 @@ Escolha;
 
 void iniciar_jogo();
 void controle_escolha(Escolha Escolha);
-void reiniciar_jogo();
+void exibir_resultado();
 
 #endif
