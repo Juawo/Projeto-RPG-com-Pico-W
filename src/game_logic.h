@@ -12,7 +12,7 @@ typedef struct Escolha
 Escolha;
 
 void iniciar_jogo();
-void controle_escolha(Escolha Escolha);
+void processaar_escolha(int opcao);
 void exibir_resultado();
 
 #endif

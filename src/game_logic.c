@@ -6,10 +6,10 @@
 char historico[4][32];
 int escolha_atual = 0;
 
-Escolha escolha1 = {"textoA", "textoB", NULL};
-Escolha escolha2 = {"textoA", "textoB", NULL};
-Escolha escolha3 = {"textoA", "textoB", NULL};
-Escolha escolha4 = {"textoA", "textoB", NULL};
+Escolha escolha1 = {"  textoA   ", "  textoB   ", NULL};
+Escolha escolha2 = {"  textoA   ", "  textoB   ", NULL};
+Escolha escolha3 = {"  textoA   ", "  textoB   ", NULL};
+Escolha escolha4 = {"  textoA   ", "  textoB   ", NULL};
 Escolha escolha_temp;
 
 void iniciar_jogo()
@@ -25,7 +25,7 @@ void iniciar_jogo()
     exibir_escolha(&escolha1);
 }
 
-void controle_escolha(int opcao)
+void processar_escolha(int opcao)
 {
     if (escolha_atual >= 4)
     {
