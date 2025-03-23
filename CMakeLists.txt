@@ -35,7 +35,12 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(projeto-rpg projeto-rpg.c )
+file(GLOB SRC_FILES "src/*.c")
+file(GLOB INC_FILES "inc/ssd1306_i2c.c")
+add_executable(projeto-rpg projeto-rpg.c ${SRC_FILES} ${INC_FILES})
+
+
+
 
 pico_set_program_name(projeto-rpg "projeto-rpg")
 pico_set_program_version(projeto-rpg "0.1")
@@ -55,8 +60,13 @@ target_include_directories(projeto-rpg PRIVATE
 
 # Add any user requested libraries
 target_link_libraries(projeto-rpg 
-        
-        )
+        hardware_i2c
+)
+
 
 pico_add_extra_outputs(projeto-rpg)
+
+# include_directories(${CMAKE_SOURCE_DIR}/src)
+# include_directories(${CMAKE_SOURCE_DIR}/inc)
+
 

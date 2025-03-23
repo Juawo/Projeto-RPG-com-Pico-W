@@ -1,15 +1,20 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <game_logic.h>
-#include <display.h>
+#include <src/game_logic.h>
+#include <src/display.h>
+#include "pico/stdlib.h"
+#include "hardware/timer.h"
 
-char historico[4][32];
+#define MAX_ESCOLHAS 4
+#define MAX_TEXTO 32
+
+char historico[MAX_ESCOLHAS][MAX_TEXTO];
 int escolha_atual = 0;
 
-Escolha escolha1 = {"  textoA   ", "  textoB   ", NULL};
-Escolha escolha2 = {"  textoA   ", "  textoB   ", NULL};
-Escolha escolha3 = {"  textoA   ", "  textoB   ", NULL};
-Escolha escolha4 = {"  textoA   ", "  textoB   ", NULL};
+Escolha escolha1 = {"  textoA1   ", "  textoB1   ", NULL};
+Escolha escolha2 = {"  textoA2   ", "  textoB2   ", NULL};
+Escolha escolha3 = {"  textoA3   ", "  textoB3   ", NULL};
+Escolha escolha4 = {"  textoA4   ", "  textoB4   ", NULL};
 Escolha escolha_temp;
 
 void iniciar_jogo()
@@ -23,38 +28,41 @@ void iniciar_jogo()
 
     escolha_atual = 0;
     exibir_escolha(&escolha1);
+    sleep_ms(500);
 }
 
 void processar_escolha(int opcao)
 {
-    if (escolha_atual >= 4)
+
+    if (escolha_atual >= MAX_ESCOLHAS)
     {
+        printf("Escolha atual excedeu o máximo de escolhas.\n");
         return;
     }
-
-    // Salvar na lista de historico, com limite de 32 caracter do tipo string, se a opcao == 0, salva opcaoA e se não, salva opcaoB
-    snprintf(historico[escolha_atual], 32, "%s", opcao == 0 ? escolha1.opcaoA : escolha1.opcaoB);
     
+    // Salvar na lista de historico, com limite de 32 caracteres do tipo string, se a opcao == 0, salva opcaoA e se não, salva opcaoB
+    snprintf(historico[escolha_atual], MAX_TEXTO, "%s", opcao == 0 ? escolha_temp.opcaoA : escolha_temp.opcaoB);
+
     escolha_atual++;
 
     if (escolha_temp.proxEsc != NULL)
     {
         escolha_temp = *escolha_temp.proxEsc;
+        exibir_escolha(&escolha_temp);
     }
     else
     {
         exibir_resultado();
     }
-
 }
 
 void exibir_resultado()
 {
     printf("--- Resultado de todas as suas escolhas ---\n");
 
-    for (uint i = 0; i < 4; i++)
+    for (int i = 0; i < MAX_ESCOLHAS; i++)
     {
-        printf("%dª Escolha : %s", i + 1, historico[i]);
+        printf("%dª Escolha : %s\n", i + 1, historico[i]);
     }
 
     sleep_ms(5000);

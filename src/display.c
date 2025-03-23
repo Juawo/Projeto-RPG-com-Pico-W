@@ -6,7 +6,7 @@
 #include "pico/binary_info.h"
 #include "inc/ssd1306.h"
 #include "hardware/i2c.h"
-#include <game_logic.h>
+#include <src/game_logic.h>
 
 #define I2C_SDA 14
 #define I2C_SCL 15

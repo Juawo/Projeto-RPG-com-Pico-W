@@ -1,7 +1,7 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
-#include <game_logic.h>
+#include <src/game_logic.h>
 
 void display_init();
 void exibir_escolha(Escolha *escolha);
