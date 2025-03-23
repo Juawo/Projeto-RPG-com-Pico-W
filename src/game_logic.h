@@ -6,8 +6,7 @@
 typedef struct Escolha
 {
     char opcaoA[32];
-    char opcaoB[32];
-    struct Escolha *proxEsc;
+    char opcaoB[32];;
 }
 Escolha;
 

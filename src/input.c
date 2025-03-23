@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
 #include "src/game_logic.h"
+#include "globals.h"
 
 #define BTN_A 05
 #define BTN_B 06
@@ -10,13 +11,13 @@ void btn_callback(uint gpio, uint32_t events)
     if (gpio == BTN_A)
     {
         printf("Escolha A\n");
-        processar_escolha(0);
+        escolha_pendente = 0;
     }
     
     if (gpio == BTN_B)
     {
         printf("Escolha B\n");
-        processar_escolha(1);
+        escolha_pendente = 1;
     }
 }
 
