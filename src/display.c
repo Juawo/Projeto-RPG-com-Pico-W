@@ -10,6 +10,7 @@
 
 #define I2C_SDA 14
 #define I2C_SCL 15
+#define MAX_LINHA 14
 
 struct render_area frame_area = {
     start_column : 0,
@@ -17,7 +18,9 @@ struct render_area frame_area = {
     start_page : 0,
     end_page : ssd1306_n_pages - 1
 };
+
 uint8_t ssd[ssd1306_buffer_length];
+
 
 void display_init()
 {
@@ -40,6 +43,7 @@ void display_init()
 
 void exibir_escolha(Escolha *escolha)
 {
+
     char *text[] = {
         escolha->opcaoA,
         escolha->opcaoB};
@@ -48,7 +52,17 @@ void exibir_escolha(Escolha *escolha)
 
     for (uint i = 0; i < count_of(text); i++)
     {
-        ssd1306_draw_string(ssd, 5, y, text[i]);
+        char buffer[16];
+        int len = strlen(text[i]);
+
+        for (int j = 0; j < len; j += MAX_LINHA)
+        {
+            strncpy(buffer, &text[i][j], MAX_LINHA);
+            buffer[MAX_LINHA] = '\0'; // Garantir fim da string
+            ssd1306_draw_string(ssd, 5, y, buffer);
+            y += 8;
+        }
+
         y += 8;
     }
 
@@ -57,7 +71,6 @@ void exibir_escolha(Escolha *escolha)
 
 void limpar_display()
 {
-    uint8_t ssd[ssd1306_buffer_length];
     memset(ssd, 0, ssd1306_buffer_length);
     render_on_display(ssd, &frame_area);
 }

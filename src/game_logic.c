@@ -6,17 +6,15 @@
 #include "hardware/timer.h"
 
 #define MAX_ESCOLHAS 4
-#define MAX_TEXTO 32
-#define BTN_A 05
-#define BTN_B 06
+#define MAX_TEXTO 128
 
 char historico[MAX_ESCOLHAS][MAX_TEXTO];
 int escolha_atual = 0;
 
-Escolha escolha1 = {"  textoA1   ", "  textoB1   "};
-Escolha escolha2 = {"  textoA2   ", "  textoB2   "};
-Escolha escolha3 = {"  textoA3   ", "  textoB3   "};
-Escolha escolha4 = {"  textoA4   ", "  textoB4   "};
+Escolha escolha1 = {"Reparar modulos da nave danificados", "Redirecionar energia ao propulsor"};
+Escolha escolha2 = {"Algo se move no casco. Investigar?", "Algo se move no casco. Ignorar"};
+Escolha escolha3 = {"tentar falar com a criatura", "tranca-la fora da nave"};
+Escolha escolha4 = {"Pegou o artefato brilhante dele", "Fugiu sem olhar para tras"};
 Escolha escolhas[4];
 
 void iniciar_jogo()
@@ -48,17 +46,29 @@ void processar_escolha(int opcao)
     }
     else
     {
+        limpar_display();
         exibir_escolha(&escolhas[escolha_atual]);
     }
 }
 
 void exibir_resultado()
 {
-     printf("--- Resultado de todas as suas escolhas ---\n");
+    printf("--- Sua épica história ---\n");
 
     for (int i = 0; i < MAX_ESCOLHAS; i++)
     {
-        printf("%dª Escolha : %s\n", i + 1, historico[i]);
+        if (i == 0)
+        {
+            printf("Ao %s, ", historico[i]);
+        }
+        else if (i == 2)
+        {
+            printf("Então ao %s,", historico[i]);
+        }
+        else
+        {
+            printf("%s.\n", historico[i]);
+        }
     }
 
     sleep_ms(5000);

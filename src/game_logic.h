@@ -5,8 +5,8 @@
 
 typedef struct Escolha
 {
-    char opcaoA[32];
-    char opcaoB[32];;
+    char opcaoA[128];
+    char opcaoB[128];;
 }
 Escolha;
 
