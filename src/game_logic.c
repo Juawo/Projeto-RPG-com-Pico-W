@@ -7,6 +7,8 @@
 
 #define MAX_ESCOLHAS 4
 #define MAX_TEXTO 32
+#define BTN_A 05
+#define BTN_B 06
 
 char historico[MAX_ESCOLHAS][MAX_TEXTO];
 int escolha_atual = 0;
@@ -15,40 +17,37 @@ Escolha escolha1 = {"  textoA1   ", "  textoB1   ", NULL};
 Escolha escolha2 = {"  textoA2   ", "  textoB2   ", NULL};
 Escolha escolha3 = {"  textoA3   ", "  textoB3   ", NULL};
 Escolha escolha4 = {"  textoA4   ", "  textoB4   ", NULL};
-Escolha escolha_temp;
+Escolha *escolha_atual_ptr = &escolha1;
 
 void iniciar_jogo()
 {
+    escolha_atual_ptr = &escolha1;
+
     escolha1.proxEsc = &escolha2;
     escolha2.proxEsc = &escolha3;
     escolha3.proxEsc = &escolha4;
     escolha4.proxEsc = NULL;
 
-    escolha_temp = escolha1;
-
     escolha_atual = 0;
     exibir_escolha(&escolha1);
-    sleep_ms(500);
 }
 
 void processar_escolha(int opcao)
 {
-
     if (escolha_atual >= MAX_ESCOLHAS)
     {
-        printf("Escolha atual excedeu o máximo de escolhas.\n");
         return;
     }
-    
+
     // Salvar na lista de historico, com limite de 32 caracteres do tipo string, se a opcao == 0, salva opcaoA e se não, salva opcaoB
-    snprintf(historico[escolha_atual], MAX_TEXTO, "%s", opcao == 0 ? escolha_temp.opcaoA : escolha_temp.opcaoB);
+    snprintf(historico[escolha_atual], MAX_TEXTO, "%s", opcao == 0 ? escolha_atual_ptr->opcaoA : escolha_atual_ptr->opcaoB);
 
     escolha_atual++;
 
-    if (escolha_temp.proxEsc != NULL)
+    if (escolha_atual_ptr->proxEsc != NULL)
     {
-        escolha_temp = *escolha_temp.proxEsc;
-        exibir_escolha(&escolha_temp);
+        escolha_atual_ptr = escolha_atual_ptr->proxEsc;
+        exibir_escolha(escolha_atual_ptr);
     }
     else
     {
@@ -58,7 +57,7 @@ void processar_escolha(int opcao)
 
 void exibir_resultado()
 {
-    printf("--- Resultado de todas as suas escolhas ---\n");
+     printf("--- Resultado de todas as suas escolhas ---\n");
 
     for (int i = 0; i < MAX_ESCOLHAS; i++)
     {
